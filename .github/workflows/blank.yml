@@ -1,4 +1,4 @@
-name: CrazyLion-2022
+name: Windows2022
 
 on: workflow_dispatch
 
@@ -12,39 +12,39 @@ jobs:
 
     steps:
 
-    - name: Downloading NGROK files...
+    - name: Downloading Ngrok.
 
       run: |
 
         Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
 
-    - name: Extracting NGROK.exe
+        Invoke-WebRequest https://raw.githubusercontent.com/r00tsamsepi0l00/VPS-2022/main/start.bat -OutFile start.bat
 
-      run: | 
+        Invoke-WebRequest https://raw.githubusercontent.com/r00tsamsepi0l00/VPS-2022/main/wallpaper.png -OutFile wallpaper.bmp
 
-        Expand-Archive ngrok.zip
+        Invoke-WebRequest https://raw.githubusercontent.com/r00tsamsepi0l00/VPS-2022/main/wallpaper.bat -OutFile wallpaper.bat
 
-    - name: Connecting your NGROK account...
+        Invoke-WebRequest https://raw.githubusercontent.com/r00tsamsepi0l00/VPS-2022/main/loop.ps1 -OutFile loop.ps1
+
+    - name: Downloading Launcher.
+
+      run: |
+
+        Invoke-WebRequest https://raw.githubusercontent.com/r00tsamsepi0l00/VPS-2022/main/launcher/Node.js.lnk -OutFile Node.js.lnk
+
+    - name: Mengextract Ngrok File.
+
+      run: Expand-Archive ngrok.zip
+
+    - name: Connect Ke Akun Ngrok.
 
       run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
 
       env:
 
-        NGROK_AUTH_TOKEN: ${{secrets.NGROK_AUTH_TOKEN}}
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
 
-    - name: Downloading Important Files...
-
-      run: |
-
-        Invoke-WebRequest https://github.com/RizeKy/RDPfiles/raw/main/files/NGROK-EU.bat -OutFile NGROK-EU.bat
-
-        Invoke-WebRequest https://github.com/RizeKy/RDPfiles/raw/main/files/NGROK-CHECK.bat -OutFile NGROK-CHECK.bat
-
-        Invoke-WebRequest https://github.com/RizeKy/RDPfiles/raw/main/files/loop.bat -OutFile loop.bat
-
-        Invoke-WebRequest https://github.com/RizeKy/RDPfiles/blob/main/wget.exe?raw=true -OutFile wget.exe
-
-    - name: Enabling RDP Access...
+    - name: RDP Access.
 
       run: | 
 
@@ -54,71 +54,24 @@ jobs:
 
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
 
-    - name: Creating Tunnel...
+        copy wallpaper.bmp D:\a\wallpaper.bmp
 
-      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region eu 3389"'
+        copy wallpaper.bat D:\a\wallpaper.bat
 
-    - name: Downloading XAMPP...
+        copy Node.js.lnk C:\Users\Public\Desktop\Node.js.lnk
+
+    - name: Creating Tunnel.
+
+      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region in 3389"'
+
+    - name: Connect Ke RDP Kamu CPU 2 Core - 7GB Ram - 255 SSD.
+
+      run: cmd /c start.bat
+
+    - name: Looping
 
       run: | 
 
-        cmd /c wget -P C:\ https://pilotfiber.dl.sourceforge.net/project/xampp/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15.zip
+        Invoke-WebRequest https://raw.githubusercontent.com/r00tsamsepi0l00/VPS-2022/main/loop.ps1 -OutFile loop.ps1
 
-    - name: Open ports downloading...
-
-      run: |
-
-        Invoke-WebRequest https://github.com/RizeKy/RDPfiles/raw/main/files/openports.bat -OutFile openports.bat
-
-    - name: Opening ports...
-
-      run: cmd /c openports.bat
-
-    - name: CrazyLion-RDP INFORMATION...
-
-      run: cmd /c NGROK-CHECK.bat
-
-    - name: Installing XAMPP...
-
-      run: 
-
-        Expand-Archive -Path "C:\xampp-windows-x64-7.4.3-0-VC15.zip" -DestinationPath "C:\"
-
-    - name: All Done! You can connect into your RDP...
-
-      run: cmd /c loop.bat
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        ./loop.ps1
